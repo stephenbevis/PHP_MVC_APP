@@ -6,7 +6,7 @@
 
   <h2 class="mb-5">Edit Post</h2>
 
-  <form action="<?php echo URLROOT; ?>/posts/add" method="post">
+  <form action="<?php echo URLROOT; ?>/posts/edit/<?php echo $data['postID']; ?>" method="post">
 
     <div class="form-group">
       <label for="title">Title: <sup>*</sup></label>

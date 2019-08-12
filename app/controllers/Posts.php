@@ -74,6 +74,7 @@
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
         $data = [
+          'postID' => $id,
           'title' => trim($_POST['title']),
           'body' => trim($_POST['body']),
           'userID' => $_SESSION['user_id'],
@@ -94,8 +95,8 @@
         // Make sure there are no errors
         if(empty($data['title_error']) && empty($data['body_error'])){
           // Validated
-          if($this->postModel->addPost($data)){
-            flash('post_added', 'Post Added!');
+          if($this->postModel->updatePost($data)){
+            flash('post_message', 'Post Updated!');
             redirect('posts');
           } else {
             die("Something Went Wrong!");
@@ -103,7 +104,7 @@
 
         } else {
           // Load View With Errors
-          $this->view('posts/add', $data);
+          $this->view('posts/edit', $data);
         }
 
       } else {
@@ -111,9 +112,9 @@
         $post = $this->postModel->getPostById($id);
 
         // Check For Owner
-        // if($post->userID != $_SESSION['user_id']){
-        //   redirect('posts');
-        // }
+        if($post->userID != $_SESSION['user_id']){
+          redirect('posts');
+        }
 
         $data = [
           'postID' => $id,
@@ -135,5 +136,27 @@
       ];
 
       $this->view('posts/show', $data);
+    }
+
+    public function delete($id){
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        
+        // Fetch Post
+        $post = $this->postModel->getPostById($id);
+
+        // Check For Owner
+        if($post->userID != $_SESSION['user_id']){
+          redirect('posts');
+        }
+
+        if($this->postModel->deletePost($id)){
+          flash('post_message', 'Post Removed');
+          redirect('posts');
+        } else {
+          die("Something Went Wrong");
+        }
+      } else {
+        redirect('posts');
+      }
     }
   }

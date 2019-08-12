@@ -14,7 +14,7 @@
   <hr>
   <a href="<?php echo URLROOT; ?>/posts/edit/<?php echo $data['post']->postID; ?>" class="btn btn-dark">Edit</a>
 
-  <form action="<?php echo URLROOT; ?>/posts/delete/<?php echo $data['post']->userID; ?>" method="post" class="pull-right">
+  <form action="<?php echo URLROOT; ?>/posts/delete/<?php echo $data['post']->postID; ?>" method="post" class="pull-right">
     <input type="submit" value="Delete" class="btn btn-danger">
   </form>
 <?php endif; ?>

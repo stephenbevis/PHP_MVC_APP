@@ -39,11 +39,41 @@
       }
     }
 
+    public function updatePost($data){
+      $this->db->query('UPDATE tbl_posts SET title = :title, body = :body WHERE postID = :postID');
+
+      // Bind Values
+      $this->db->bind(':postID', $data['postID']);
+      $this->db->bind(':title', $data['title']);
+      $this->db->bind(':body', $data['body']);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     public function getPostById($id){
       $this->db->query('SELECT * FROM tbl_posts WHERE postID = :id');
       $this->db->bind(':id', $id);
 
       $row = $this->db->single();
       return $row;
+    }
+
+    public function deletePost($id){
+      $this->db->query('DELETE FROM tbl_posts WHERE postID = :postID');
+
+      // Bind Values
+      $this->db->bind(':postID', $id);
+
+      // Execute
+      if($this->db->execute()){
+        return true;
+      } else {
+        return false;
+      }
     }
   }
